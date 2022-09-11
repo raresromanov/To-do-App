@@ -2,16 +2,36 @@
 
 
 {% block content %}
-    <div class="container">
+
+    {% for item in thing %}
+
+    {% endfor %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Date added</th>
+            <th>Utilities</th>
+        </tr>
+        </thead>
+        <tbody>
         {% for item in thing %}
-            {{ item.name }}
-            {% if item.until %}
-                {{ item.until }}
-            {% endif %}
+            <tr>
+                <td>{{ item.pk }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.created_at }}</td>
+                <td>
+                    <a href="#"><img style="width: 25px; height: 25px" class="iconita" src="https://cdn-icons-png.flaticon.com/512/6861/6861362.png"></a>
+
+                    <a href="#">
+                        <img style="width: 25px; height: 25px" class="iconita" src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png">
+                    </a>
+                </td>
+            </tr>
         {% endfor %}
-        <div class="fixed-btn bg-success">
-            <a class="text-decoration-none text-light" href="{% url 'create_thing' %}">Add things to do</a>
-        </div>
-    </div>
+        </tbody>
+    </table>
+
 
 {% endblock %}
