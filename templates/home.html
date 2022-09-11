@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div class="container">
+        {% for item in thing %}
+            {{ item.name }}
+            {% if item.until %}
+                {{ item.until }}
+            {% endif %}
+        {% endfor %}
+        <div class="fixed-btn bg-success">
+            <a class="text-decoration-none text-light" href="{% url 'create_thing' %}">Add things to do</a>
+        </div>
+    </div>
+
+{% endblock %}
