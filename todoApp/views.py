@@ -19,3 +19,18 @@ class CreateThing(CreateView):
     template_name = 'create_thing.html'
     fields = '__all__'
     success_url = reverse_lazy('home')
+
+class SearchView(ListView):
+    model = Thing
+    template_name = 'thing_search.html'
+    context_object_name = 'all_search_results'
+
+    def get_queryset(self):
+        result = super(SearchView, self).get_queryset()
+        query = self.request.GET.get('search')
+        if query:
+            postresult = Thing.objects.filter(name__contains=query)
+            result = postresult
+        else:
+            result = None
+        return result

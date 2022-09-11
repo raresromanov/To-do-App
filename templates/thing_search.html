@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Date added</th>
+            <th>Utilities</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in all_search_results %}
+            <tr>
+                <td>{{ item.pk }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.created_at }}</td>
+                <td>
+                    <a href="#"><img style="width: 25px; height: 25px" class="iconita"
+                                     src="https://cdn-icons-png.flaticon.com/512/6861/6861362.png"></a>
+
+                    <a href="#">
+                        <img style="width: 25px; height: 25px" class="iconita"
+                             src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png">
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

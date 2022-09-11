@@ -28,7 +28,7 @@
     {#    </nav>#}
     <div class="collapse" id="navbarToggleExternalContent">
         <div class="bg-dark p-4">
-            <form class="d-flex">
+            <form class="d-flex" method="GET" action="{% url 'search' %}">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-success" type="submit">Search</button>
             </form>
