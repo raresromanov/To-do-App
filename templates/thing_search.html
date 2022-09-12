@@ -12,22 +12,24 @@
         </tr>
         </thead>
         <tbody>
-        {% for item in all_search_results %}
-            <tr>
-                <td>{{ item.pk }}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.created_at }}</td>
-                <td>
-                    <a href="#"><img style="width: 25px; height: 25px" class="iconita"
-                                     src="https://cdn-icons-png.flaticon.com/512/6861/6861362.png"></a>
+        {% if object_list.exists %}
+            {% for result in object_list %}
+                <tr>
+                    <td>{{ result.pk }}</td>
+                    <td>{{ result.name }}</td>
+                    <td>{{ result.created_at }}</td>
+                    <td>
+                        <a href="#"><img style="width: 25px; height: 25px" class="iconita"
+                                         src="https://cdn-icons-png.flaticon.com/512/6861/6861362.png"></a>
 
-                    <a href="#">
-                        <img style="width: 25px; height: 25px" class="iconita"
-                             src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png">
-                    </a>
-                </td>
-            </tr>
-        {% endfor %}
+                        <a href="#">
+                            <img style="width: 25px; height: 25px" class="iconita"
+                                 src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png">
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
         </tbody>
     </table>
 

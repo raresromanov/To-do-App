@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <div style="display: flex; justify-content:center">
+        <div class="form-div">
+            <form action="" method="post">
+                {% csrf_token %}
+                <p>Are you sure you want to delete {{ thing.name }}?</p>
+                <input type="submit" value="Delete">
+                <input type="button" value="No" onclick="history.back()">
+            </form>
+        </div>
+    </div>
+{% endblock %}

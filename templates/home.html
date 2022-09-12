@@ -9,7 +9,6 @@
     <table class="table">
         <thead>
         <tr>
-            <th>No.</th>
             <th>Name</th>
             <th>Date added</th>
             <th>Utilities</th>
@@ -18,13 +17,13 @@
         <tbody>
         {% for item in thing %}
             <tr>
-                <td>{{ item.pk }}</td>
                 <td>{{ item.name }}</td>
                 <td>{{ item.created_at }}</td>
                 <td>
-                    <a href="#"><img style="width: 25px; height: 25px" class="iconita" src="https://cdn-icons-png.flaticon.com/512/6861/6861362.png"></a>
+                    <a href="{% url 'delete_thing' item.pk %}">
+                        <img style="width: 25px; height: 25px" class="iconita" src="https://cdn-icons-png.flaticon.com/512/6861/6861362.png"></a>
 
-                    <a href="#">
+                    <a href="{% url 'edit_thing' item.pk %}">
                         <img style="width: 25px; height: 25px" class="iconita" src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png">
                     </a>
                 </td>
