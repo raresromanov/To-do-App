@@ -9,4 +9,7 @@ urlpatterns = [
     path('results/', SearchView.as_view(), name='search'),
     path('delete/<int:pk>', DeleteThingView.as_view(), name='delete_thing'),
     path('edit/<int:pk>', EditThingView.as_view(), name='edit_thing'),
+    path("register", views.register_request, name="register"),
+    path("login", views.login_request, name="login"),
+    path("logout", views.logout_request, name="logout"),
 ]
