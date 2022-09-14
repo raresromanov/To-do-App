@@ -2,33 +2,53 @@
 
 
 {% block content %}
+
     {% if user.is_authenticated %}
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Date added</th>
-            <th>Utilities</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for item in thing %}
+
+        <table class="table">
+            <thead>
             <tr>
-                <td>{{ item.name }}</td>
-                <td>{{ item.created_at }}</td>
-                <td>
-                    <a href="{% url 'delete_thing' item.pk %}">
-                        <img style="width: 25px; height: 25px" class="iconita" src="https://cdn-icons-png.flaticon.com/512/6861/6861362.png"></a>
-
-                    <a href="{% url 'edit_thing' item.pk %}">
-                        <img style="width: 25px; height: 25px" class="iconita" src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png">
-                    </a>
-                </td>
+                <th>Name</th>
+                <th>Date added</th>
+                <th>Utilities</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
+            </thead>
+            <tbody>
+            {% for item in thing %}
+                {% if item.author == user %}
+                    <tr>
+                        <td><a href="#" data-bs-toggle="popover" data-bs-title="{{ item.name }}" data-bs-placement="top"
+                               data-bs-content="Description: {{ item.description }}" class="text-decoration-none">{{ item.name }}</a>
+                        </td>
+                        <td>{{ item.created_at }}</td>
+                        <td>
+                            <a href="{% url 'delete_thing' item.pk %}">
+                                <img style="width: 25px; height: 25px" class="iconita"
+                                     src="https://cdn-icons-png.flaticon.com/512/6861/6861362.png"></a>
 
+                            <a href="{% url 'edit_thing' item.pk %}">
+                                <img style="width: 25px; height: 25px" class="iconita"
+                                     src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png">
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h2 class="text-center">Welcome to ToDoApp</h2>
+        <p class="text-center">You must be <a class="text-decoration-none" href="{% url 'register' %}">registered</a> or
+            <a class="text-decoration-none" href="{% url 'login' %}">logged in</a> to use this app.</p>
+        <div class="d-flex jusify-content-center">
+
+
+        </div>
+
+    {% endif %}
+    <script>
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+    </script>
 
 {% endblock %}

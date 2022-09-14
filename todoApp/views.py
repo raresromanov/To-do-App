@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from datetime import datetime
-from django.contrib.auth.decorators import login_required
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
@@ -11,7 +10,7 @@ from .forms import NewUserForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
-
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -27,8 +26,13 @@ class CreateThing(LoginRequiredMixin,CreateView):
     fields = ['name', 'description']
     success_url = reverse_lazy('home')
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        super(CreateThing, self).form_valid(form)
+        return redirect('home')
 
-class SearchView(ListView):
+
+class SearchView(LoginRequiredMixin, ListView):
     model = Thing
     template_name = "thing_search.html"
 
@@ -68,25 +72,53 @@ def register_request(request):
     return render(request=request, template_name="registration/register.html", context={"register_form": form})
 
 
+# def login_request(request):
+#     if request.method == "POST":
+#         form = AuthenticationForm(request, data=request.POST)
+#         if form.is_valid():
+#             username = form.cleaned_data.get('username')
+#             password = form.cleaned_data.get('password')
+#             user = authenticate(username=username, password=password)
+#             if user is not None:
+#                 login(request, user)
+#                 messages.info(request, f"You are now logged in as {username}.")
+#                 return redirect("home")
+#             else:
+#                 messages.error(request, "Invalid username or password.")
+#         else:
+#             messages.error(request, "Invalid username or password.")
+#     form = AuthenticationForm()
+#     return render(request=request, template_name="registration/login.html", context={"login_form": form})
+
 def login_request(request):
-    if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+    if request.user.is_authenticated:
+        return redirect('home')
+
+    if request.method == 'POST':
+        form = AuthenticationForm(request=request, data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+            user = authenticate(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password'],
+            )
             if user is not None:
                 login(request, user)
-                messages.info(request, f"You are now logged in as {username}.")
-                return redirect("home")
-            else:
-                messages.error(request, "Invalid username or password.")
+                messages.success(request, f"Hello <b>{user.username}</b>! You have been logged in")
+                return redirect('home')
+
         else:
-            messages.error(request, "Invalid username or password.")
+            for error in list(form.errors.values()):
+                messages.error(request, error)
+
     form = AuthenticationForm()
-    return render(request=request, template_name="registration/login.html", context={"login_form": form})
 
+    return render(
+        request=request,
+        template_name="registration/login.html",
+        context={'form': form}
+    )
 
+@login_required
 def logout_request(request):
     logout(request)
     messages.info(request, "You have successfully logged out.")
