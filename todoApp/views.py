@@ -55,7 +55,7 @@ class EditThingView(UpdateView):
     model = Thing
     template_name = "update_thing.html"
     context_object_name = 'thing'
-    fields = '__all__'
+    fields = ['name','description']
     success_url = reverse_lazy('home')
 
 
